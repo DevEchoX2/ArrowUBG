@@ -1,32 +1,33 @@
-// main.js — ArrowUBG full navigation, path routing (/games, /apps), and delegation to games.js/apps.js
+// main.js — ArrowUBG full navigation, path routing (/games, /apps, /settings), and delegation
 
 document.addEventListener("DOMContentLoaded", () => {
   const navIcons = document.querySelectorAll(".nav-icon");
   const pages = document.querySelectorAll(".page");
 
-  // Map routes to page IDs (supports /, /home, /games, /apps, /donate)
+  // Map routes to page IDs
   const routeMap = {
     "/": "home",
     "/home": "home",
     "/games": "games",
     "/apps": "apps",
-    "/donate": "donate"
+    "/search": "search",
+    "/donate": "donate",
+    "/settings": "settings"
   };
 
   const validPages = Array.from(pages).map(p => p.id);
 
-  // Core page switcher
   function switchPage(targetPage, pushState = true) {
     if (!validPages.includes(targetPage)) return;
 
-    // Deactivate icons and pages
+    // Reset
     navIcons.forEach(i => i.classList.remove("active"));
     pages.forEach(p => {
       p.classList.remove("active");
       p.setAttribute("aria-hidden", "true");
     });
 
-    // Activate target icon and page
+    // Activate
     const icon = document.querySelector(`.nav-icon[data-page="${targetPage}"]`);
     const page = document.getElementById(targetPage);
 
@@ -37,32 +38,32 @@ document.addEventListener("DOMContentLoaded", () => {
       page.style.animation = "contentFade 0.5s ease both";
     }
 
-    // Update the URL path (SPA-style)
+    // Update URL
     if (pushState) {
       const path = Object.keys(routeMap).find(k => routeMap[k] === targetPage) || "/";
       history.pushState({ page: targetPage }, "", path);
     }
 
-    // Delegate rendering to external scripts
+    // Delegate rendering
     if (targetPage === "games" && typeof renderGames === "function") {
       renderGames();
     }
     if (targetPage === "apps" && typeof renderApps === "function") {
       renderApps();
     }
+    if (targetPage === "settings" && typeof renderSettings === "function") {
+      renderSettings();
+    }
   }
 
-  // Route based on current path
   function routeFromPath() {
     const path = location.pathname.replace(/\/+$/, "") || "/";
     const target = routeMap[path] || "home";
     switchPage(target, false);
   }
 
-  // Handle browser back/forward
   window.addEventListener("popstate", routeFromPath);
 
-  // Sidebar clicks -> switch page and push path
   navIcons.forEach(icon => {
     icon.addEventListener("click", (e) => {
       e.preventDefault();
@@ -71,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Skip to content accessibility
+  // Skip link
   const skipLink = document.querySelector(".skip-link");
   if (skipLink) {
     skipLink.addEventListener("click", (e) => {
@@ -85,6 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Initial route on load
+  // Initial route
   routeFromPath();
 });
