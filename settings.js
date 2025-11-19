@@ -27,7 +27,7 @@ function renderSettings() {
         <i class="fas fa-language"></i>
         <span>Language</span>
         <select id="lang-select" class="play-btn">
-          <option value="en" selected>English</option>
+          <option value="en">English</option>
           <option value="es">Español</option>
           <option value="fr">Français</option>
           <option value="de">Deutsch</option>
@@ -69,9 +69,25 @@ function renderSettings() {
 
   // Language switcher
   const langSelect = document.getElementById("lang-select");
+  const tagline = document.querySelector(".tagline");
+
+  const translations = {
+    en: "Peak gaming. Peak style. Peak freedom.",
+    es: "Máximo juego. Máximo estilo. Máxima libertad.",
+    fr: "Jeu ultime. Style ultime. Liberté ultime.",
+    de: "Top Gaming. Top Stil. Top Freiheit."
+  };
+
+  // Load saved language
+  const savedLang = localStorage.getItem("arrowLang") || "en";
+  langSelect.value = savedLang;
+  if (tagline) tagline.textContent = translations[savedLang];
+
   langSelect?.addEventListener("change", (e) => {
     const lang = e.target.value;
-    alert("Language switched to: " + lang);
-    // Hook: you can load translations or redirect here
+    localStorage.setItem("arrowLang", lang);
+    if (tagline) {
+      tagline.textContent = translations[lang] || translations["en"];
+    }
   });
 }
