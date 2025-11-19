@@ -277,6 +277,46 @@ main {
   background: linear-gradient(90deg, var(--neon-blue), var(--neon-cyan));
   transform: scale(1.05);
 }
+/* settings section */
+/* Settings Section */
+.settings-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+  display: grid;
+  gap: 16px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.setting-item span {
+  flex: 1;
+}
+
+.setting-item .play-btn,
+.setting-item select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+  color: black;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.setting-item .play-btn:hover,
+.setting-item select:hover {
+  transform: scale(1.05);
+}
 
 /* Skip Link */
 .skip-link {
