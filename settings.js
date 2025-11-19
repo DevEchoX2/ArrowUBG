@@ -42,7 +42,20 @@ function renderSettings() {
     const win = window.open("about:blank", "_blank");
     if (win) {
       const doc = win.document;
-      doc.write(`<iframe src="${location.href}" style="border:none;width:100%;height:100%"></iframe>`);
+      // Inject a shell page that loads your site root
+      doc.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>ArrowUBG</title>
+            <link rel="icon" href="/favicon.ico">
+            <style>body,html{margin:0;height:100%;}</style>
+          </head>
+          <body>
+            <iframe src="/" style="border:none;width:100%;height:100%"></iframe>
+          </body>
+        </html>
+      `);
       doc.close();
     }
   });
