@@ -1,5 +1,3 @@
-// settings.js — interactive Settings controls
-
 function renderSettings() {
   const page = document.getElementById("settings");
   if (!page) return;
@@ -8,14 +6,14 @@ function renderSettings() {
     <h2 id="settings-title">Settings</h2>
     <div class="settings-list">
 
-      <!-- About:blank toggle -->
+      <!-- About:blank launcher -->
       <label class="setting-item">
         <i class="fas fa-window-restore"></i>
         <span>Launch in about:blank</span>
         <button id="blank-btn" class="play-btn">Open</button>
       </label>
 
-      <!-- Tab cloaker toggle -->
+      <!-- Tab cloaker -->
       <label class="setting-item">
         <i class="fas fa-mask"></i>
         <span>Tab Cloaker</span>
@@ -36,28 +34,37 @@ function renderSettings() {
     </div>
   `;
 
-  // About:blank launcher
+  // About:blank launcher — proxy-style
   const blankBtn = document.getElementById("blank-btn");
   blankBtn?.addEventListener("click", () => {
     const win = window.open("about:blank", "_blank");
-    if (win) {
-      const doc = win.document;
-      // Inject a shell page that loads your site root
-      doc.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>ArrowUBG</title>
-            <link rel="icon" href="/favicon.ico">
-            <style>body,html{margin:0;height:100%;}</style>
-          </head>
-          <body>
-            <iframe src="/" style="border:none;width:100%;height:100%"></iframe>
-          </body>
-        </html>
-      `);
-      doc.close();
-    }
+    if (!win) return;
+
+    const doc = win.document;
+    const origin = location.origin;
+
+    doc.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta charset="utf-8">
+          <title>ArrowUBG</title>
+          <link rel="icon" href="${origin}/favicon.ico">
+          <style>
+            html,body{margin:0;height:100%;overflow:hidden;}
+            body{background:#000;color:#e9f7ff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;}
+            h1{font-size:2rem;text-align:center;}
+          </style>
+        </head>
+        <body>
+          <h1>Launching ArrowUBG...</h1>
+          <script>
+            location.replace("${origin}");
+          </script>
+        </body>
+      </html>
+    `);
+    doc.close();
   });
 
   // Tab cloaker
@@ -91,9 +98,8 @@ function renderSettings() {
     de: "Top Gaming. Top Stil. Top Freiheit."
   };
 
-  // Load saved language
   const savedLang = localStorage.getItem("arrowLang") || "en";
-  langSelect.value = savedLang;
+  if (langSelect) langSelect.value = savedLang;
   if (tagline) tagline.textContent = translations[savedLang];
 
   langSelect?.addEventListener("change", (e) => {
