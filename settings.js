@@ -1,112 +1,31 @@
-function renderSettings() {
-  const page = document.getElementById("settings");
-  if (!page) return;
+    // Create an iframe element
+    const iframe = document.createElement('iframe');
 
-  page.innerHTML = `
-    <h2 id="settings-title">Settings</h2>
-    <div class="settings-list">
+    // Set the iframe's source to about:blank
+    iframe.setAttribute('src', 'about:blank');
 
-      <!-- About:blank launcher -->
-      <label class="setting-item">
-        <i class="fas fa-window-restore"></i>
-        <span>Launch in about:blank</span>
-        <button id="blank-btn" class="play-btn">Open</button>
-      </label>
+    // Set styling for the iframe to fill the window
+    iframe.setAttribute('style', 'position:fixed;top:0;left:0;height:100vh;width:100vw;border:none;');
 
-      <!-- Tab cloaker -->
-      <label class="setting-item">
-        <i class="fas fa-mask"></i>
-        <span>Tab Cloaker</span>
-        <button id="cloak-btn" class="play-btn">Toggle</button>
-      </label>
+    // Append the iframe to the document body
+    document.body.appendChild(iframe);
 
-      <!-- Language switcher -->
-      <label class="setting-item">
-        <i class="fas fa-language"></i>
-        <span>Language</span>
-        <select id="lang-select" class="play-btn">
-          <option value="en">English</option>
-          <option value="es">Español</option>
-          <option value="fr">Français</option>
-          <option value="de">Deutsch</option>
-        </select>
-      </label>
-    </div>
-  `;
-
-  // About:blank launcher — proxy-style
-  const blankBtn = document.getElementById("blank-btn");
-  blankBtn?.addEventListener("click", () => {
-    const win = window.open("about:blank", "_blank");
-    if (!win) return;
-
-    const doc = win.document;
-    const origin = location.origin;
-
-    doc.write(`
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <meta charset="utf-8">
-          <title>ArrowUBG</title>
-          <link rel="icon" href="${origin}/favicon.ico">
-          <style>
-            html,body{margin:0;height:100%;overflow:hidden;}
-            body{background:#000;color:#e9f7ff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;}
-            h1{font-size:2rem;text-align:center;}
-          </style>
-        </head>
-        <body>
-          <h1>Launching ArrowUBG...</h1>
-          <script>
-            location.replace("${origin}");
-          </script>
-        </body>
-      </html>
-    `);
-    doc.close();
-  });
-
-  // Tab cloaker
-  let cloaked = false;
-  const cloakBtn = document.getElementById("cloak-btn");
-  cloakBtn?.addEventListener("click", () => {
-    cloaked = !cloaked;
-    if (cloaked) {
-      document.title = "Google Drive";
-      const link = document.querySelector("link[rel~='icon']") || document.createElement("link");
-      link.rel = "icon";
-      link.href = "https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png";
-      document.head.appendChild(link);
-      cloakBtn.textContent = "Uncloak";
-    } else {
-      document.title = "ArrowUBG";
-      const link = document.querySelector("link[rel~='icon']");
-      if (link) link.href = "/favicon.ico";
-      cloakBtn.textContent = "Toggle";
-    }
-  });
-
-  // Language switcher
-  const langSelect = document.getElementById("lang-select");
-  const tagline = document.querySelector(".tagline");
-
-  const translations = {
-    en: "Peak gaming. Peak style. Peak freedom.",
-    es: "Máximo juego. Máximo estilo. Máxima libertad.",
-    fr: "Jeu ultime. Style ultime. Liberté ultime.",
-    de: "Top Gaming. Top Stil. Top Freiheit."
-  };
-
-  const savedLang = localStorage.getItem("arrowLang") || "en";
-  if (langSelect) langSelect.value = savedLang;
-  if (tagline) tagline.textContent = translations[savedLang];
-
-  langSelect?.addEventListener("change", (e) => {
-    const lang = e.target.value;
-    localStorage.setItem("arrowLang", lang);
-    if (tagline) {
-      tagline.textContent = translations[lang] || translations["en"];
-    }
-  });
-}
+    // After the iframe is loaded, inject content into it
+    iframe.onload = () => {
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Embedded Site</title>
+            </head>
+            <body>
+                <h1>Welcome to the embedded site!</h1>
+                <p>This content is loaded inside an about:blank iframe.</p>
+                <!-- You can load another site here using an inner iframe or fetch requests -->
+            </body>
+            </html>
+        `);
+        iframeDoc.close();
+    };
