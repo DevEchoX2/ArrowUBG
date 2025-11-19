@@ -1,4 +1,4 @@
-// main.js — ArrowUBG full navigation, path routing (/games, /apps, /settings), and delegation
+// main.js — handles navigation, routing, and page rendering
 
 document.addEventListener("DOMContentLoaded", () => {
   const navIcons = document.querySelectorAll(".nav-icon");
@@ -20,14 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchPage(targetPage, pushState = true) {
     if (!validPages.includes(targetPage)) return;
 
-    // Reset
+    // Reset all pages and icons
     navIcons.forEach(i => i.classList.remove("active"));
     pages.forEach(p => {
       p.classList.remove("active");
       p.setAttribute("aria-hidden", "true");
     });
 
-    // Activate
+    // Activate target page
     const icon = document.querySelector(`.nav-icon[data-page="${targetPage}"]`);
     const page = document.getElementById(targetPage);
 
@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Skip link
+  // Skip link accessibility
   const skipLink = document.querySelector(".skip-link");
   if (skipLink) {
     skipLink.addEventListener("click", (e) => {
