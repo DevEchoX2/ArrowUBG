@@ -1,77 +1,90 @@
-// main.js — ArrowUBG full navigation, path routing (/games, /apps), and delegation to games.js/apps.js
+// main.js — navigation + loader overlay integration
 
 document.addEventListener("DOMContentLoaded", () => {
   const navIcons = document.querySelectorAll(".nav-icon");
   const pages = document.querySelectorAll(".page");
-
-  // Map routes to page IDs (supports /, /home, /games, /apps, /donate)
-  const routeMap = {
-    "/": "home",
-    "/home": "home",
-    "/games": "games",
-    "/apps": "apps",
-    "/donate": "donate"
-  };
-
   const validPages = Array.from(pages).map(p => p.id);
 
-  // Core page switcher
-  function switchPage(targetPage, pushState = true) {
+  // Loader helpers
+  function showLoader() {
+    const loader = document.getElementById("loader");
+    if (loader) {
+      loader.style.display = "flex";
+      loader.style.opacity = "1";
+    }
+  }
+
+  function hideLoader() {
+    const loader = document.getElementById("loader");
+    if (loader) {
+      loader.style.opacity = "0";
+      setTimeout(() => loader.style.display = "none", 600);
+    }
+  }
+
+  // Switch page logic
+  function switchPage(targetPage, pushHash = true) {
     if (!validPages.includes(targetPage)) return;
 
-    // Deactivate icons and pages
-    navIcons.forEach(i => i.classList.remove("active"));
-    pages.forEach(p => {
-      p.classList.remove("active");
-      p.setAttribute("aria-hidden", "true");
-    });
+    showLoader();
 
-    // Activate target icon and page
-    const icon = document.querySelector(`.nav-icon[data-page="${targetPage}"]`);
-    const page = document.getElementById(targetPage);
+    setTimeout(() => {
+      // Deactivate icons and pages
+      navIcons.forEach(i => i.classList.remove("active"));
+      pages.forEach(p => {
+        p.classList.remove("active");
+        p.setAttribute("aria-hidden", "true");
+      });
 
-    if (icon) icon.classList.add("active");
-    if (page) {
-      page.classList.add("active");
-      page.removeAttribute("aria-hidden");
-      page.style.animation = "contentFade 0.5s ease both";
-    }
+      // Activate target icon and page
+      const icon = document.querySelector(`.nav-icon[data-page="${targetPage}"]`);
+      const page = document.getElementById(targetPage);
 
-    // Update the URL path (SPA-style)
-    if (pushState) {
-      const path = Object.keys(routeMap).find(k => routeMap[k] === targetPage) || "/";
-      history.pushState({ page: targetPage }, "", path);
-    }
+      if (icon) icon.classList.add("active");
+      if (page) {
+        page.classList.add("active");
+        page.removeAttribute("aria-hidden");
+        page.style.animation = "contentFade 0.5s ease both";
+      }
 
-    // Delegate rendering to external scripts
-    if (targetPage === "games" && typeof renderGames === "function") {
-      renderGames();
-    }
-    if (targetPage === "apps" && typeof renderApps === "function") {
-      renderApps();
-    }
+      // Update hash for deep linking
+      if (pushHash) {
+        history.replaceState(null, "", `#${targetPage}`);
+      }
+
+      // Delegate rendering to external scripts
+      if (targetPage === "games" && typeof renderGames === "function") {
+        renderGames();
+      }
+      if (targetPage === "apps" && typeof renderApps === "function") {
+        renderApps();
+      }
+
+      hideLoader();
+    }, 800); // simulate load delay
   }
 
-  // Route based on current path
-  function routeFromPath() {
-    const path = location.pathname.replace(/\/+$/, "") || "/";
-    const target = routeMap[path] || "home";
-    switchPage(target, false);
-  }
-
-  // Handle browser back/forward
-  window.addEventListener("popstate", routeFromPath);
-
-  // Sidebar clicks -> switch page and push path
+  // Attach click listeners to nav icons
   navIcons.forEach(icon => {
-    icon.addEventListener("click", (e) => {
-      e.preventDefault();
+    icon.addEventListener("click", () => {
       const targetPage = icon.getAttribute("data-page");
-      switchPage(targetPage, true);
+      switchPage(targetPage);
     });
   });
 
-  // Skip to content accessibility
+  // Handle hash routing (e.g., /#games)
+  function routeFromHash() {
+    const hash = (location.hash || "").replace("#", "");
+    if (validPages.includes(hash)) {
+      switchPage(hash, false);
+    } else {
+      switchPage("home", false);
+    }
+  }
+
+  window.addEventListener("hashchange", routeFromHash);
+
+  // Accessibility: Skip to content
   const skipLink = document.querySelector(".skip-link");
   if (skipLink) {
     skipLink.addEventListener("click", (e) => {
@@ -85,6 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Initial route on load
-  routeFromPath();
+  // Initial route on page load
+  routeFromHash();
 });
