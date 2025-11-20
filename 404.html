@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>404 - Page Not Found</title>
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root {
+      --bg-black: #000000;
+      --neon-cyan: #00f0ff;
+      --neon-blue: #0077ff;
+      --text: #e9f7ff;
+    }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: var(--bg-black);
+      font-family: Arial, sans-serif;
+      color: var(--text);
+    }
+    h1 {
+      font-size: 5rem;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 24px rgba(0, 240, 255, 0.25);
+    }
+    p {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin-top: 12px;
+    }
+    a {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+      color: black;
+      font-weight: bold;
+      border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+      transition: transform 0.2s ease;
+    }
+    a:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <h1>404</h1>
+  <p>Oops! The page you’re looking for doesn’t exist.</p>
+  <a href="/">Return Home</a>
+</body>
+</html>
