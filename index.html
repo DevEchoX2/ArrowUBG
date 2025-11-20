@@ -93,7 +93,17 @@
           </a>
         </li>
       </ul>
-    </section>
+      <!-- Game/App Player -->
+<section id="player" class="page" aria-hidden="true">
+  <div class="player-wrapper">
+    <iframe id="player-frame" allow="fullscreen"></iframe>
+    <div class="player-controls">
+      <button onclick="toggleFullscreen()">Fullscreen</button>
+      <button onclick="location.reload()">Refresh</button>
+      <button onclick="switchPage('home')">Back</button>
+    </div>
+  </div>
+</section>
 
     <!-- Settings -->
     <!-- Settings -->
