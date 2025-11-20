@@ -1,10 +1,7 @@
-// main.js — handles navigation, routing, and page rendering
-
 document.addEventListener("DOMContentLoaded", () => {
   const navIcons = document.querySelectorAll(".nav-icon");
   const pages = document.querySelectorAll(".page");
 
-  // Map routes to page IDs
   const routeMap = {
     "/": "home",
     "/home": "home",
@@ -20,14 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function switchPage(targetPage, pushState = true) {
     if (!validPages.includes(targetPage)) return;
 
-    // Reset all pages and icons
     navIcons.forEach(i => i.classList.remove("active"));
     pages.forEach(p => {
       p.classList.remove("active");
       p.setAttribute("aria-hidden", "true");
     });
 
-    // Activate target page
     const icon = document.querySelector(`.nav-icon[data-page="${targetPage}"]`);
     const page = document.getElementById(targetPage);
 
@@ -38,22 +33,14 @@ document.addEventListener("DOMContentLoaded", () => {
       page.style.animation = "contentFade 0.5s ease both";
     }
 
-    // Update URL
     if (pushState) {
       const path = Object.keys(routeMap).find(k => routeMap[k] === targetPage) || "/";
       history.pushState({ page: targetPage }, "", path);
     }
 
-    // Delegate rendering
-    if (targetPage === "games" && typeof renderGames === "function") {
-      renderGames();
-    }
-    if (targetPage === "apps" && typeof renderApps === "function") {
-      renderApps();
-    }
-    if (targetPage === "settings" && typeof renderSettings === "function") {
-      renderSettings();
-    }
+    if (targetPage === "games" && typeof renderGames === "function") renderGames();
+    if (targetPage === "apps" && typeof renderApps === "function") renderApps();
+    if (targetPage === "settings" && typeof renderSettings === "function") renderSettings();
   }
 
   function routeFromPath() {
@@ -72,20 +59,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Skip link accessibility
   const skipLink = document.querySelector(".skip-link");
   if (skipLink) {
     skipLink.addEventListener("click", (e) => {
       e.preventDefault();
       const current = document.querySelector(".page.active") || document.getElementById("home");
-      if (!current) return;
-      const focusable = current.querySelector(
-        'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])'
-      );
+      const focusable = current.querySelector('a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
       (focusable || current).focus({ preventScroll: true });
     });
   }
 
-  // Initial route
   routeFromPath();
 });
+
+// Load game/app into player
+function loadPlayer(url) {
+  const frame = document.getElementById("player-frame");
+  if (frame) frame.src = url;
+  switchPage("player");
+}
+
+function toggleFullscreen() {
+  const iframe = document.getElementById("player-frame");
+  if (iframe.requestFullscreen) {
+    iframe.requestFullscreen();
+  } else if (iframe.webkitRequestFullscreen) {
+    iframe.webkitRequestFullscreen();
+  } else if (iframe.msRequestFullscreen) {
+    iframe.msRequestFullscreen();
+  }
+}
