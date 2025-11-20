@@ -439,6 +439,7 @@ main {
   .nav-icon { height: 72px; width: 72px; }
   .game-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
 }
+
 /* Fullscreen Player Styles */
 #player {
   position: relative;
