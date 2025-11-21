@@ -4,16 +4,21 @@
   <meta charset="UTF-8">
   <title>ArrowUBG | Iframe</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: #0a1d37;
+      background-color: #0a1d37;
+      color: #e9f7ff;
+      font-family: 'Poppins', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
     }
+
     .iframe-container {
       width: 90vw;
       height: 80vh;
@@ -21,16 +26,19 @@
       overflow: hidden;
       box-shadow: 0 0 30px rgba(0,240,255,0.3);
       border: 3px solid #00f0ff;
-      background: #0a1d37;
+      background-color: #0a1d37;
       display: flex;
       flex-direction: column;
     }
+
     iframe {
       flex: 1;
       width: 100%;
       border: none;
       border-radius: 20px 20px 0 0;
+      background-color: #ffffff;
     }
+
     .controls {
       height: 50px;
       background: linear-gradient(to right, #00334e, #001a2e);
@@ -41,15 +49,14 @@
       border-radius: 0 0 20px 20px;
       box-shadow: 0 -3px 12px rgba(0,240,255,0.2);
     }
+
     .icon {
       color: #00f0ff;
       font-size: 22px;
       cursor: pointer;
       transition: transform 0.3s ease;
     }
-    .icon:hover {
-      transform: scale(1.2);
-    }
+    .icon:hover { transform: scale(1.2); }
   </style>
 </head>
 <body>
@@ -62,16 +69,34 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
   <script>
+    // Grab ?url= from query string
     const params = new URLSearchParams(window.location.search);
-    const url = params.get("url");
+    let url = params.get("url");
 
-    const iframe = document.getElementById("myIframe");
-    if (url) {
-      iframe.src = url;
+    // If the URL has a fragment (#...), append it
+    if (url && window.location.hash) {
+      url = url + window.location.hash;
     }
 
+    const iframe = document.getElementById("myIframe");
+
+    // Load the URL into the iframe
+    if (url) {
+      iframe.src = url;
+      // Save last used URL so if user reloads without ?url, it still works
+      localStorage.setItem("iframeUrl", url);
+      // Clean the address bar
+      history.replaceState(null, "", window.location.pathname);
+    } else {
+      // Fallback: reuse last URL if available
+      const savedUrl = localStorage.getItem("iframeUrl");
+      if (savedUrl) {
+        iframe.src = savedUrl;
+      }
+    }
+
+    // Controls
     function toggleFullscreen() {
       if (iframe.requestFullscreen) iframe.requestFullscreen();
       else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
