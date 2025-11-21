@@ -2,7 +2,7 @@
 
 const apps = [
   { title: "Discord", image: "images/discord.jpg", url: "https://discord.com" },
-  { title: "Helios", image: "images/Helios.gpg", url: "https://open.spotify.com" },
+  { title: "Helios", image: "images/Helios.jpg", url: "https://devechox2.github.io/ArrowUBG/apps/Helios-Offline.html" },
   { title: "AI", image: "images/AI.jpg", url: "https://devechox2.github.io/ArrowUBG/apps/AI.html" },
   { title: "Twitch", image: "images/twitch.jpg", url: "https://twitch.tv" }
 ];
