@@ -1,115 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ArrowUBG | Iframe</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background-color: #0a1d37;
-      color: #e9f7ff;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    .iframe-container {
-      width: 90vw;
-      height: 80vh;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 0 30px rgba(0,240,255,0.3);
-      border: 3px solid #00f0ff;
-      background-color: #0a1d37;
-      display: flex;
-      flex-direction: column;
-    }
-
-    iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
-      border-radius: 20px 20px 0 0;
-      background-color: #ffffff;
-    }
-
-    .controls {
-      height: 50px;
-      background: linear-gradient(to right, #00334e, #001a2e);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 40px;
-      border-radius: 0 0 20px 20px;
-      box-shadow: 0 -3px 12px rgba(0,240,255,0.2);
-    }
-
-    .icon {
-      color: #00f0ff;
-      font-size: 22px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .icon:hover { transform: scale(1.2); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArrowUBG App Loader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #1f2937;
+        }
+        #app-iframe {
+            flex-grow: 1;
+            width: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
-  <div class="iframe-container">
-    <iframe id="myIframe"></iframe>
-    <div class="controls">
-      <i class="fas fa-expand icon" onclick="toggleFullscreen()"></i>
-      <i class="fas fa-sync icon" onclick="refreshIframe()"></i>
-      <i class="fas fa-arrow-left icon" onclick="goBack()"></i>
+
+    <header class="bg-gray-800 p-3 shadow-lg flex justify-between items-center z-10">
+        <div class="flex items-center space-x-4">
+            <button id="back-button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-200 shadow-md">
+                ← Back to Launcher
+            </button>
+            <h1 id="app-title" class="text-xl font-semibold text-white truncate max-w-xs sm:max-w-md">Loading App...</h1>
+        </div>
+        <a href="/" class="text-gray-400 hover:text-white transition duration-200 text-sm hidden sm:block">
+             ArrowUBG
+        </a>
+    </header>
+
+    <div id="loading-indicator" class="flex-grow flex items-center justify-center text-white text-xl">
+        <svg class="animate-spin -ml-1 mr-3 h-8 w-8 text-indigo-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        Loading Content...
     </div>
-  </div>
 
-  <script>
-    // Grab ?url= from query string
-    const params = new URLSearchParams(window.location.search);
-    let url = params.get("url");
+    <iframe id="app-iframe" class="hidden"></iframe>
 
-    // If the URL has a fragment (#...), append it
-    if (url && window.location.hash) {
-      url = url + window.location.hash;
-    }
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const iframe = document.getElementById('app-iframe');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const appTitle = document.getElementById('app-title');
+            const backButton = document.getElementById('back-button');
 
-    const iframe = document.getElementById("myIframe");
+            const params = new URLSearchParams(window.location.search);
+            let url = params.get("url");
 
-    // Load the URL into the iframe
-    if (url) {
-      iframe.src = url;
-      // Save last used URL so if user reloads without ?url, it still works
-      localStorage.setItem("iframeUrl", url);
-      // Clean the address bar
-      history.replaceState(null, "", window.location.pathname);
-    } else {
-      // Fallback: reuse last URL if available
-      const savedUrl = localStorage.getItem("iframeUrl");
-      if (savedUrl) {
-        iframe.src = savedUrl;
-      }
-    }
+            if (url) {
+                url = decodeURIComponent(url);
 
-    // Controls
-    function toggleFullscreen() {
-      if (iframe.requestFullscreen) iframe.requestFullscreen();
-      else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-      else if (iframe.msRequestFullscreen) iframe.msRequestFullscreen();
-    }
+                history.replaceState(null, "", window.location.pathname);
 
-    function refreshIframe() {
-      iframe.src = iframe.src;
-    }
+                function extractTitle(url) {
+                    try {
+                        const path = new URL(url).pathname;
+                        let title = path.substring(path.lastIndexOf('/') + 1).replace('.html', '');
+                        title = title.split(/[-_]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+                        return title || 'External Application';
+                    } catch (e) {
+                        return 'External Application';
+                    }
+                }
 
-    function goBack() {
-      window.history.back();
-    }
-  </script>
+                appTitle.textContent = extractTitle(url);
+                iframe.src = url;
+
+                iframe.onload = () => {
+                    loadingIndicator.classList.add('hidden');
+                    iframe.classList.remove('hidden');
+                };
+
+                iframe.onerror = () => {
+                    loadingIndicator.innerHTML = '<span class="text-red-400">Error loading application. Check the URL path for casing errors!</span>';
+                };
+
+            } else {
+                loadingIndicator.innerHTML = '<span class="text-red-400">Error: No application URL provided.</span>';
+                appTitle.textContent = 'Error';
+            }
+
+            backButton.addEventListener('click', () => {
+                window.location.href = '/ArrowUBG/'; 
+            });
+        });
+    </script>
 </body>
 </html>
