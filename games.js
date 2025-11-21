@@ -8,7 +8,7 @@ const games = [
   { title: "Blood Money", image: "images/bloodmoney.jpg", url: "https://example.com/bloodmoney" },
   { title: "Dice", image: "images/dice.jpg", url: "https://example.com/dice" },
   { title: "Neon Shooter", image: "images/neonshooter.jpg", url: "https://example.com/neonshooter" },
-  { title: "Celeste", image: "images/celeste.jpg", url: "https://example.com/celeste" }
+  { title: "Celeste", image: "https://devechox2.github.io/ArrowUBG/Images/celeste.jpeg", url: "https://example.com/celeste" }
 ];
 
 function renderGames() {
