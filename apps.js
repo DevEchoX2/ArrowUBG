@@ -3,7 +3,7 @@
 const apps = [
   { title: "Discord", image: "images/discord.jpg", url: "https://discord.com" },
   { title: "Spotify", image: "images/spotify.jpg", url: "https://open.spotify.com" },
-  { title: "AI", image: "images/AI.jpg", url: "https://youtube.com" },
+  { title: "AI", image: "images/AI.jpg", url: "https://github.com/DevEchoX2/ArrowUBG/blob/main/apps/AI.html" },
   { title: "Twitch", image: "images/twitch.jpg", url: "https://twitch.tv" }
 ];
 
