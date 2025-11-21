@@ -1,10 +1,8 @@
-// apps.js — dynamically render app cards into #apps-grid
-
 const apps = [
   { title: "Discord", image: "images/discord.jpg", url: "https://discord.com" },
   { title: "Helios", image: "images/Helios.jpg", url: "https://devechox2.github.io/ArrowUBG/apps/Helios-Offline.html" },
   { title: "AI", image: "images/AI.jpg", url: "https://devechox2.github.io/ArrowUBG/apps/AI.html" },
-  { title: "Twitch", image: "images/twitch.jpg", url: "https://twitch.tv" }
+  { title: "Twitch", image: "images/twitch.tv" }
 ];
 
 function renderApps() {
@@ -23,9 +21,10 @@ function renderApps() {
       <h3>${app.title}</h3>
     `;
     card.addEventListener("click", () => {
-      // Redirect to iframe.html with app URL
       window.location.href = `iframe.html?url=${encodeURIComponent(app.url)}`;
     });
     grid.appendChild(card);
   });
 }
+
+document.addEventListener("DOMContentLoaded", renderApps);
