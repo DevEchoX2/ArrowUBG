@@ -3,7 +3,7 @@
 const apps = [
   { title: "Discord", image: "images/discord.jpg" },
   { title: "Spotify", image: "images/spotify.jpg" },
-  { title: "YouTube", image: "images/youtube.webp" },
+  { title: "YouTube", image: "Images/youtube.webp" },
   { title: "Twitch", image: "images/twitch.jpg" }
 ];
 
