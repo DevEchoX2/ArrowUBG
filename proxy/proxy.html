@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ArrowUBG Mini Browser</title>
+  <link rel="stylesheet" href="proxy.css" />
+</head>
+<body>
+  <header class="proxy-header">
+    <div class="search-controls">
+      <input id="search-input" type="text" placeholder="Search or enter URL..." />
+      <select id="engine-select">
+        <option value="brave">Brave</option>
+        <option value="duckduckgo">DuckDuckGo</option>
+        <option value="google">Google</option>
+        <option value="bing">Bing</option>
+      </select>
+      <button id="search-button">Search</button>
+    </div>
+    <div class="action-controls">
+      <button id="close-button" title="Back">✕</button>
+      <button id="fullscreen-button" title="Fullscreen">⛶</button>
+    </div>
+  </header>
+
+  <div id="loading-indicator" class="loading">Ready to search...</div>
+  <iframe id="proxy-iframe"></iframe>
+
+  <script src="proxy.js"></script>
+</body>
+</html>
