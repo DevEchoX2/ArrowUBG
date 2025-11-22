@@ -29,6 +29,8 @@
       padding: 6px;
       border-radius: 6px;
       transition: background 0.2s;
+      font-size: 18px;
+      line-height: 1;
     }
     .icon-btn:hover {
       background: rgba(23,217,234,0.2);
@@ -40,13 +42,9 @@
   <header class="bg-[#001a2e] p-3 shadow-lg flex justify-between items-center z-10 border-b border-cyan-400">
     <div class="flex items-center space-x-2">
       <!-- X button -->
-      <button id="close-button" class="icon-btn" title="Close">
-        ✕
-      </button>
+      <button id="close-button" class="icon-btn" title="Close">✕</button>
       <!-- Fullscreen button -->
-      <button id="fullscreen-button" class="icon-btn" title="Fullscreen">
-        ⛶
-      </button>
+      <button id="fullscreen-button" class="icon-btn" title="Fullscreen">⛶</button>
       <h1 id="app-title" class="text-xl font-semibold text-cyan-300 truncate max-w-xs sm:max-w-md">Loading App...</h1>
     </div>
     <span class="text-cyan-400 text-sm hidden sm:block">ArrowUBG</span>
@@ -72,7 +70,6 @@
 
       const params = new URLSearchParams(window.location.search);
       let url = params.get("url");
-      let section = params.get("section"); // e.g. "games", "apps", "proxy"
 
       if (url) {
         url = decodeURIComponent(url);
@@ -80,7 +77,7 @@
 
         function extractTitle(url) {
           try {
-            const path = new URL(url).pathname;
+            const path = new URL(url, window.location.origin).pathname;
             let title = path.substring(path.lastIndexOf('/') + 1).replace('.html', '');
             title = title.split(/[-_]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
             return title || 'External Application';
@@ -106,12 +103,25 @@
         appTitle.textContent = 'Error';
       }
 
-      // Close button → return to section without reload
+      // Close button → auto-detect section from URL
       closeButton.addEventListener('click', () => {
-        if (section) {
-          window.location.href = `/${section}.html`;
-        } else {
-          window.location.href = '/'; // fallback
+        try {
+          const loadedUrl = iframe.src;
+          const path = new URL(loadedUrl, window.location.origin).pathname;
+
+          if (path.includes("games")) {
+            window.location.href = "index.html#games"; // back to games section
+          } else if (path.includes("apps")) {
+            window.location.href = "index.html#apps"; // back to apps section
+          } else if (path.includes("proxy")) {
+            window.location.href = "index.html#proxy";
+          } else if (path.includes("settings")) {
+            window.location.href = "index.html#settings";
+          } else {
+            window.location.href = "index.html"; // fallback to home
+          }
+        } catch (e) {
+          window.location.href = "index.html";
         }
       });
 
