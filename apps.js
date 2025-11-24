@@ -1,5 +1,5 @@
 const apps = [
-  { title: "Discord", image: "images/discord.jpg", url: "https://discord.com" },
+  { title: "Discord", image: "images/discord.jpg", url: "https://devechox2.github.io/ArrowUBG/apps/discord.html" },
   { title: "Helios", image: "https://devechox2.github.io/ArrowUBG/Images/Helios.ico", url: "https://devechox2.github.io/ArrowUBG/apps/Helios-Offline.html" },
   { title: "AI", image: "https://devechox2.github.io/ArrowUBG/Images/chatgpt.png", url: "https://devechox2.github.io/ArrowUBG/apps/AI.html" },
   { title: "Twitch", image: "images/twitch.tv" }
