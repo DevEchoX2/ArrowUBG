@@ -2,7 +2,7 @@
 
 const games = [
   { title: "Cuphead", image: "images/cuphead.jpg", url: "https://example.com/cuphead" },
-  { title: "Hollow Knight", image: "images/hollowknight.jpg", url: "https://example.com/hollowknight" },
+  { title: "Hollow Knight", image: "images/hollowknight.jpg", url: "https://devechox2.github.io/ArrowUBG/games/hollowknight.html" },
   { title: "vex 8", image: "images/pizzatower.jpg", url: "https://devechox2.github.io/ArrowUBG/games/vex8.html" },
   { title: "angry birds", image: "https://devechox2.github.io/ArrowUBG/Images/angrybirds.jpeg", url: "https://devechox2.github.io/ArrowUBG/games/angry-birds.html" },
   { title: "Blood Money", image: "images/bloodmoney.jpg", url: "https://example.com/bloodmoney" },
