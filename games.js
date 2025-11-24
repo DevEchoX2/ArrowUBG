@@ -3,8 +3,8 @@
 const games = [
   { title: "Cuphead", image: "images/cuphead.jpg", url: "https://example.com/cuphead" },
   { title: "Hollow Knight", image: "images/hollowknight.jpg", url: "https://example.com/hollowknight" },
-  { title: "vex 8", image: "images/pizzatower.jpg", url: "https://devechox2.github.io/ArrowUBG/games/vex8.html" },
-  { title: "People Playground", image: "images/peopleplayground.jpg", url: "https://example.com/peopleplayground" },
+  { title: "vex 8", image: "images/pizzatower.jpg", url: "https://devechox2.github.io/ArrowUBG/games/vex8.xml" },
+  { title: "People Playground", image: "images/peopleplayground.jpg", url: "https://devechox2.github.io/ArrowUBG/games/angry-birds.xml" },
   { title: "Blood Money", image: "images/bloodmoney.jpg", url: "https://example.com/bloodmoney" },
   { title: "Dice", image: "images/dice.jpg", url: "https://example.com/dice" },
   { title: "Neon Shooter", image: "images/neonshooter.jpg", url: "https://example.com/neonshooter" },
