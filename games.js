@@ -9,7 +9,6 @@ const games = [
   { title: "Dice", image: "images/dice.jpg", url: "https://example.com/dice" },
   { title: "Neon Shooter", image: "images/neonshooter.jpg", url: "https://example.com/neonshooter" },
   { title: "Celeste", image: "https://devechox2.github.io/ArrowUBG/Images/celeste.jpeg", url: "https://example.com/celeste" }
-  { title: "12 mini battles", image: "images/minibattles.png", url: "https://devechox2.github.io/ArrowUBG/games/12minibattles.html" }
 ];
 
 function renderGames() {
