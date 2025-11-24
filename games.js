@@ -1,7 +1,7 @@
 // games.js — dynamically render game cards into #game-grid
 
 const games = [
-  { title: "Cuphead", image: "images/cuphead.jpg", url: "https://example.com/cuphead" },
+  { title: "Cuphead", image: "images/cuphead.jpg", url: "https://devechox2.github.io/ArrowUBG/games/cuphead.html" },
   { title: "Hollow Knight", image: "https://devechox2.github.io/ArrowUBG/Images/hollowknight.png", url: "https://devechox2.github.io/ArrowUBG/games/hollowknight.html" },
   { title: "vex 8", image: "images/pizzatower.jpg", url: "https://devechox2.github.io/ArrowUBG/games/vex8.html" },
   { title: "angry birds", image: "https://devechox2.github.io/ArrowUBG/Images/angrybirds.jpeg", url: "https://devechox2.github.io/ArrowUBG/games/angry-birds.html" },
