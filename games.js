@@ -7,8 +7,8 @@ const games = [
   { title: "angry birds", image: "https://devechox2.github.io/ArrowUBG/Images/angrybirds.jpeg", url: "https://devechox2.github.io/ArrowUBG/games/angry-birds.html" },
   { title: "Blood Money", image: "images/bloodmoney.jpg", url: "https://example.com/bloodmoney" },
   { title: "Dice", image: "images/dice.jpg", url: "https://example.com/dice" },
-  { title: "Neon Shooter", image: "images/neonshooter.jpg", url: "https://example.com/neonshooter" },
-  { title: "Celeste", image: "https://devechox2.github.io/ArrowUBG/Images/celeste.jpeg", url: "https://example.com/celeste" }
+  { title: "2048 merge run", image: "images/neonshooter.jpg", url: "https://devechox2.github.io/ArrowUBG/games/2048 Merge Run.html" },
+  { title: "Celeste", image: "https://devechox2.github.io/ArrowUBG/Images/celeste.jpeg", url: "https://example.com/celeste" },
 ];
 
 function renderGames() {
